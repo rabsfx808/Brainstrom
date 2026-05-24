@@ -83,14 +83,23 @@ function selectVehicleByGroupSize(groupSize: number): Vehicle | undefined {
     return vehicles.find((v) => v.type === "Sedan");
   } else if (groupSize <= 4) {
     return vehicles.find((v) => v.type === "SUV");
-  } else if (groupSize <= 8) {
-    return vehicles.find(
-      (v) => v.category === "Premium" || v.category === "Luxury SUV"
-    );
   } else {
-    return vehicles.find(
-      (v) => v.type === "Coach" || v.type === "Mini Bus"
-    );
+    // For groups 5+, find vehicles with sufficient capacity, sorted by
+    // smallest sufficient capacity first (to avoid oversizing), with a
+    // secondary preference for premium/luxury categories over bus
+    const suitable = vehicles
+      .filter((v) => v.capacity >= groupSize)
+      .sort((a, b) => {
+        // Sort by capacity ascending (smallest sufficient vehicle first)
+        if (a.capacity !== b.capacity) return a.capacity - b.capacity;
+        // Secondary: prefer Luxury SUV / Premium over Bus
+        const categoryPriority = (cat: string) => {
+          if (cat === "Premium" || cat === "Luxury SUV") return 0;
+          return 1;
+        };
+        return categoryPriority(a.category) - categoryPriority(b.category);
+      });
+    return suitable.length > 0 ? suitable[0] : vehicles.find((v) => v.type === "Coach" || v.type === "Mini Bus");
   }
 }
 
@@ -150,7 +159,12 @@ export function getRecommendations(
   const starRating = getHotelStarRating(preferences.budget);
 
   // Filter tours by tier
-  const tieredTours = tours.filter((t) => t.tier === tier);
+  let tieredTours = tours.filter((t) => t.tier === tier);
+
+  // For moderate budget, apply a price ceiling to filter out expensive premium tours
+  if (preferences.budget === "moderate") {
+    tieredTours = tieredTours.filter((t) => t.pricePerPerson <= 3000);
+  }
 
   // Score each tour
   const scoredTours = tieredTours.map((tour) => ({
@@ -161,10 +175,8 @@ export function getRecommendations(
   // Sort by score descending
   scoredTours.sort((a, b) => b.score - a.score);
 
-  // Select hotel by star rating
+  // Select hotel by star rating, preferring location match to tour's first destination
   const matchingHotels = hotels.filter((h) => h.starRating === starRating);
-  const selectedHotel =
-    matchingHotels.length > 0 ? matchingHotels[0] : hotels[0];
 
   // Select vehicle by group size
   const selectedVehicle =
@@ -176,25 +188,47 @@ export function getRecommendations(
   // Match food to trip type
   const matchedFood = matchFood(preferences.tripType);
 
+  // SDF and visa constants
+  const SDF_RATE = 200;
+  const VISA_FEE = 40;
+
   // Build top 3 packages
   const topTours = scoredTours.slice(0, 3);
 
   return topTours.map(({ tour, score }) => {
+    // Try to match hotel location to first destination in tour itinerary
+    let selectedHotel = matchingHotels[0] || hotels[0];
+    if (tour.itinerary && tour.itinerary.length > 0) {
+      const firstDayTitle = tour.itinerary[0].title.toLowerCase();
+      const locationMatch = matchingHotels.find((h) =>
+        firstDayTitle.includes(h.location.toLowerCase())
+      );
+      if (locationMatch) {
+        selectedHotel = locationMatch;
+      }
+    }
+
+    const tourCost = tour.pricePerPerson * preferences.groupSize;
     const hotelCost = selectedHotel.pricePerNight * (tour.duration - 1);
     const vehicleCost = selectedVehicle.pricePerDay * tour.duration;
     const experiencesCost = matchedExperiences.reduce(
       (sum, exp) => sum + exp.price,
       0
-    );
+    ) * preferences.groupSize;
     const foodCost = matchedFood.reduce(
       (sum, f) => sum + f.pricePerPerson,
       0
-    );
+    ) * preferences.groupSize;
+    const sdfCost = SDF_RATE * tour.duration * preferences.groupSize;
+    const visaCost = VISA_FEE * preferences.groupSize;
+
     const estimatedTotal =
-      tour.pricePerPerson + hotelCost + vehicleCost + experiencesCost + foodCost;
+      tourCost + hotelCost + vehicleCost + experiencesCost + foodCost + sdfCost + visaCost;
 
     const breakdown = [
-      { category: "Tour Package", amount: tour.pricePerPerson },
+      { category: "Tour Package", amount: tourCost },
+      { category: "Sustainable Development Fee", amount: sdfCost },
+      { category: "Visa Fee", amount: visaCost },
       { category: "Accommodation", amount: hotelCost },
       { category: "Vehicle", amount: vehicleCost },
       { category: "Experiences", amount: experiencesCost },

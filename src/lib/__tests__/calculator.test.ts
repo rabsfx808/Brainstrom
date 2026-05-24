@@ -92,18 +92,26 @@ describe("Calculator Module", () => {
   });
 
   describe("calculateTours", () => {
-    it("should sum tour prices", () => {
-      expect(calculateTours(["premium-honeymoon"])).toBe(3500);
+    it("should multiply tour price by persons", () => {
+      expect(calculateTours(["premium-honeymoon"], 2)).toBe(7000);
     });
 
-    it("should sum multiple tours", () => {
-      expect(calculateTours(["premium-honeymoon", "premium-cultural"])).toBe(6000);
+    it("should sum multiple tours multiplied by persons", () => {
+      expect(calculateTours(["premium-honeymoon", "premium-cultural"], 2)).toBe(12000);
+    });
+
+    it("should calculate for single person", () => {
+      expect(calculateTours(["premium-honeymoon"], 1)).toBe(3500);
     });
   });
 
   describe("calculateExperiences", () => {
-    it("should sum experience prices", () => {
-      expect(calculateExperiences(["simply-bhutan-museum", "monastery-visit"])).toBe(30);
+    it("should multiply experience prices by persons", () => {
+      expect(calculateExperiences(["simply-bhutan-museum", "monastery-visit"], 2)).toBe(60);
+    });
+
+    it("should calculate for single person", () => {
+      expect(calculateExperiences(["simply-bhutan-museum"], 1)).toBe(15);
     });
   });
 
@@ -138,8 +146,8 @@ describe("Calculator Module", () => {
       expect(result.vehicle).toBe(500);
       expect(result.guide).toBe(200);
       expect(result.hotel).toBe(320);
-      expect(result.tours).toBe(3500);
-      expect(result.experiences).toBe(15);
+      expect(result.tours).toBe(7000);
+      expect(result.experiences).toBe(30);
       expect(result.food).toBe(50);
       expect(result.total).toBe(
         result.sdf +

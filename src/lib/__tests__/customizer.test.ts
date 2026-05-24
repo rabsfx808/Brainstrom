@@ -138,5 +138,55 @@ describe("Customizer Module", () => {
         expect(results[i].matchScore).toBeGreaterThanOrEqual(results[i + 1].matchScore);
       }
     });
+
+    it("should include SDF and visa fee in the breakdown", () => {
+      const preferences: CustomerPreferences = {
+        budget: "premium",
+        tripType: "cultural",
+        duration: 6,
+        interests: ["monasteries"],
+        groupSize: 2,
+      };
+      const results = getRecommendations(preferences);
+      const breakdown = results[0].breakdown;
+      const categories = breakdown.map((b) => b.category);
+      expect(categories).toContain("Sustainable Development Fee");
+      expect(categories).toContain("Visa Fee");
+
+      const sdfEntry = breakdown.find((b) => b.category === "Sustainable Development Fee");
+      const visaEntry = breakdown.find((b) => b.category === "Visa Fee");
+      // SDF = $200 * tour.duration * groupSize
+      expect(sdfEntry!.amount).toBe(200 * results[0].tour.duration * 2);
+      // Visa = $40 * groupSize
+      expect(visaEntry!.amount).toBe(40 * 2);
+    });
+
+    it("should multiply tour price by group size in estimate", () => {
+      const preferences: CustomerPreferences = {
+        budget: "premium",
+        tripType: "cultural",
+        duration: 6,
+        interests: ["monasteries"],
+        groupSize: 2,
+      };
+      const results = getRecommendations(preferences);
+      const tourAmount = results[0].breakdown.find((b) => b.category === "Tour Package");
+      expect(tourAmount!.amount).toBe(results[0].tour.pricePerPerson * 2);
+    });
+
+    it("should filter out expensive tours for moderate budget", () => {
+      const preferences: CustomerPreferences = {
+        budget: "moderate",
+        tripType: "honeymoon",
+        duration: 7,
+        interests: ["romance"],
+        groupSize: 2,
+      };
+      const results = getRecommendations(preferences);
+      // All tours should have pricePerPerson <= 3000 for moderate budget
+      results.forEach((pkg) => {
+        expect(pkg.tour.pricePerPerson).toBeLessThanOrEqual(3000);
+      });
+    });
   });
 });

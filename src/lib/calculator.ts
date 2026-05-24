@@ -109,17 +109,17 @@ export function calculateHotel(
   return hotel.pricePerNight * nights;
 }
 
-export function calculateTours(tourIds: string[]): number {
+export function calculateTours(tourIds: string[], persons: number): number {
   return tourIds.reduce((sum, id) => {
     const tour = tours.find((t) => t.id === id);
-    return sum + (tour ? tour.pricePerPerson : 0);
+    return sum + (tour ? tour.pricePerPerson * persons : 0);
   }, 0);
 }
 
-export function calculateExperiences(experienceIds: string[]): number {
+export function calculateExperiences(experienceIds: string[], persons: number): number {
   return experienceIds.reduce((sum, id) => {
     const exp = experiences.find((e) => e.id === id);
-    return sum + (exp ? exp.price : 0);
+    return sum + (exp ? exp.price * persons : 0);
   }, 0);
 }
 
@@ -245,16 +245,16 @@ export function calculateTotal(params: CalculatorInput): CostBreakdown {
 
   let toursCost = 0;
   if (params.tourIds && params.tourIds.length > 0) {
-    toursCost = calculateTours(params.tourIds);
+    toursCost = calculateTours(params.tourIds, params.persons);
     params.tourIds.forEach((id) => {
       const tour = tours.find((t) => t.id === id);
       if (tour) {
         itemized.push({
           category: "Tours",
           item: tour.name,
-          quantity: 1,
+          quantity: params.persons,
           unitPrice: tour.pricePerPerson,
-          total: tour.pricePerPerson,
+          total: tour.pricePerPerson * params.persons,
         });
       }
     });
@@ -262,16 +262,16 @@ export function calculateTotal(params: CalculatorInput): CostBreakdown {
 
   let experiencesCost = 0;
   if (params.experienceIds && params.experienceIds.length > 0) {
-    experiencesCost = calculateExperiences(params.experienceIds);
+    experiencesCost = calculateExperiences(params.experienceIds, params.persons);
     params.experienceIds.forEach((id) => {
       const exp = experiences.find((e) => e.id === id);
       if (exp) {
         itemized.push({
           category: "Experiences",
           item: exp.name,
-          quantity: 1,
+          quantity: params.persons,
           unitPrice: exp.price,
-          total: exp.price,
+          total: exp.price * params.persons,
         });
       }
     });

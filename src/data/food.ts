@@ -115,7 +115,7 @@ export const foodExperiences: FoodExperience[] = [
     name: "Romantic Candlelight Dinner",
     description:
       "An exclusive private dining experience for couples in a specially decorated setting with panoramic mountain views and live traditional music.",
-    pricePerPerson: 120,
+    pricePerPerson: 60,
     menu: [
       "Champagne welcome",
       "Amuse-bouche trio",
@@ -128,7 +128,7 @@ export const foodExperiences: FoodExperience[] = [
       "Digestif and local cheese board",
     ],
     dietaryNotes:
-      "Price is per couple ($120 per couple). Wine pairing available at extra cost. Dietary restrictions accommodated with advance notice.",
+      "Price is $60 per person ($120 per couple). Wine pairing available at extra cost. Dietary restrictions accommodated with advance notice.",
     duration: "2.5 hours",
   },
   {
