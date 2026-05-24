@@ -2,7 +2,7 @@
   "id": "FEAT-002",
   "type": "feat",
   "description": "Build all page-level routes: Destinations (list all, filter by Dzongkhag, detail pages), Tours/Packages (grid with tier filters), Vehicles (categorized grid), Hotels (star-rating filter), Food (menu-style listing), and Experiences (categorized with filters). Each page should display items with their prices and relevant details from the data layer.",
-  "status": "pending",
+  "status": "in_progress",
   "steps": [
     "Create src/app/destinations/page.tsx - Main destinations page showing all 20 Dzongkhags as cards in a grid. Each card shows Dzongkhag name, brief description, number of places. Include a search/filter bar to filter by name.",
     "Create src/app/destinations/[id]/page.tsx - Dzongkhag detail page showing: Dzongkhag name, full description, facts list, and a grid of places worth visiting. Each place shows name, description, why to visit, and entry fee if applicable.",
