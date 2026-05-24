@@ -1,18 +1,11 @@
 import React from "react";
 
-interface PriceTagProps {
-  amount: number;
-  suffix?: "per person" | "per night" | "per day" | "per couple";
-  size?: "sm" | "md" | "lg";
-  className?: string;
-}
-
 export default function PriceTag({
   amount,
   suffix,
   size = "md",
   className = "",
-}: PriceTagProps) {
+}) {
   const sizeStyles = {
     sm: "text-sm",
     md: "text-lg",

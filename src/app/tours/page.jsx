@@ -6,7 +6,7 @@ import { tours } from "@/data/tours";
 import Card from "@/components/ui/Card";
 import Badge from "@/components/ui/Badge";
 
-const tiers = ["all", "premium", "luxury"] as const;
+const tiers = ["all", "premium", "luxury"];
 const categories = [
   "all",
   "honeymoon",
@@ -14,11 +14,11 @@ const categories = [
   "cultural",
   "adventure",
   "festival",
-] as const;
+];
 
 export default function ToursPage() {
-  const [tierFilter, setTierFilter] = useState<string>("all");
-  const [categoryFilter, setCategoryFilter] = useState<string>("all");
+  const [tierFilter, setTierFilter] = useState("all");
+  const [categoryFilter, setCategoryFilter] = useState("all");
 
   const filtered = tours.filter((tour) => {
     const matchesTier = tierFilter === "all" || tour.tier === tierFilter;

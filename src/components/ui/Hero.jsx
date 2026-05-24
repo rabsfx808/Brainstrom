@@ -1,13 +1,6 @@
 import React from "react";
 
-interface HeroProps {
-  title: string;
-  subtitle?: string;
-  description?: string;
-  children?: React.ReactNode;
-}
-
-export default function Hero({ title, subtitle, description, children }: HeroProps) {
+export default function Hero({ title, subtitle, description, children }) {
   return (
     <section className="relative bg-gradient-to-br from-primary-800 via-primary-900 to-accent-900 text-white py-20 md:py-32">
       <div className="absolute inset-0 bg-black/20" />

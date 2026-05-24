@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { getRecommendations, CustomerPreferences, RecommendedPackage } from "@/lib/customizer";
+import { getRecommendations } from "@/lib/customizer";
 
 const TRIP_TYPES = [
   { id: "honeymoon", label: "Honeymoon", icon: "\u2665", color: "text-red-500" },
@@ -10,7 +10,7 @@ const TRIP_TYPES = [
   { id: "adventure", label: "Adventure", icon: "\u26F0", color: "text-green-500" },
   { id: "wellness", label: "Wellness", icon: "\u2698", color: "text-purple-500" },
   { id: "festival", label: "Festival", icon: "\u265B", color: "text-orange-500" },
-] as const;
+];
 
 const INTERESTS = [
   { id: "monasteries", label: "Monasteries" },
@@ -21,30 +21,27 @@ const INTERESTS = [
   { id: "romance", label: "Romance" },
   { id: "photography", label: "Photography" },
   { id: "history", label: "History & Culture" },
-] as const;
+];
 
-type TripType = "honeymoon" | "anniversary" | "cultural" | "adventure" | "wellness" | "festival";
-type Budget = "moderate" | "premium" | "luxury";
-type Interest = "monasteries" | "nature" | "food" | "wellness" | "adventure" | "romance" | "photography" | "history";
 
 export default function CustomizePage() {
   const [step, setStep] = useState(1);
-  const [tripType, setTripType] = useState<TripType>("honeymoon");
-  const [budget, setBudget] = useState<Budget>("premium");
+  const [tripType, setTripType] = useState("honeymoon");
+  const [budget, setBudget] = useState("premium");
   const [duration, setDuration] = useState(7);
-  const [interests, setInterests] = useState<Interest[]>([]);
+  const [interests, setInterests] = useState([]);
   const [groupSize, setGroupSize] = useState(2);
   const [specialRequests, setSpecialRequests] = useState("");
-  const [results, setResults] = useState<RecommendedPackage[] | null>(null);
+  const [results, setResults] = useState(null);
 
-  const toggleInterest = (interest: Interest) => {
+  const toggleInterest = (interest) => {
     setInterests((prev) =>
       prev.includes(interest) ? prev.filter((i) => i !== interest) : [...prev, interest]
     );
   };
 
   const generateResults = () => {
-    const preferences: CustomerPreferences = {
+    const preferences = {
       budget,
       tripType,
       duration,

@@ -1,24 +1,6 @@
-export interface ItineraryDay {
-  day: number;
-  title: string;
-  description: string;
-  activities: string[];
-}
 
-export interface Tour {
-  id: string;
-  name: string;
-  tier: "premium" | "luxury";
-  category: string;
-  duration: number;
-  description: string;
-  highlights: string[];
-  inclusions: string[];
-  pricePerPerson: number;
-  itinerary: ItineraryDay[];
-}
 
-export const tours: Tour[] = [
+export const tours = [
   {
     id: "premium-honeymoon",
     name: "Premium Honeymoon",

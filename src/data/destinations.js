@@ -1,19 +1,6 @@
-export interface Place {
-  name: string;
-  description: string;
-  whyVisit: string;
-  entryFee: number | null;
-}
 
-export interface Dzongkhag {
-  id: string;
-  name: string;
-  description: string;
-  facts: string[];
-  places: Place[];
-}
 
-export const destinations: Dzongkhag[] = [
+export const destinations = [
   {
     id: "thimphu",
     name: "Thimphu",

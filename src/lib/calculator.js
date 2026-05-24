@@ -4,50 +4,7 @@ import { tours } from "@/data/tours";
 import { experiences } from "@/data/experiences";
 import { foodExperiences } from "@/data/food";
 
-export interface ItemizedCost {
-  category: string;
-  item: string;
-  quantity: number;
-  unitPrice: number;
-  total: number;
-}
-
-export interface CostBreakdown {
-  sdf: number;
-  visaFee: number;
-  internationalFlights: number;
-  domesticFlights: number;
-  vehicle: number;
-  guide: number;
-  hotel: number;
-  tours: number;
-  experiences: number;
-  food: number;
-  total: number;
-  itemized: ItemizedCost[];
-}
-
-export interface CalculatorInput {
-  days: number;
-  persons: number;
-  internationalRoute?: string;
-  flightType?: "return" | "onward";
-  domesticRoutes?: string[];
-  vehicleId?: string;
-  vehicleDays?: number;
-  hotelId?: string;
-  hotelNights?: number;
-  roomType?: string;
-  guideDays?: number;
-  tourIds?: string[];
-  experienceIds?: string[];
-  foodIds?: string[];
-}
-
-const INTERNATIONAL_FLIGHT_PRICES: Record<
-  string,
-  { return: number; onward: number }
-> = {
+const INTERNATIONAL_FLIGHT_PRICES = {
   "Bangkok-Paro": { return: 600, onward: 350 },
   "Delhi-Paro": { return: 400, onward: 250 },
   "Kathmandu-Paro": { return: 350, onward: 200 },
@@ -60,46 +17,46 @@ const SDF_RATE = 200;
 const VISA_FEE = 40;
 const GUIDE_RATE = 40;
 
-export function calculateSDF(days: number, persons: number): number {
+export function calculateSDF(days, persons) {
   return SDF_RATE * days * persons;
 }
 
-export function calculateVisaFee(persons: number): number {
+export function calculateVisaFee(persons) {
   return VISA_FEE * persons;
 }
 
 export function calculateInternationalFlight(
-  route: string,
-  type: "return" | "onward",
-  persons: number
-): number {
+  route,
+  type,
+  persons
+) {
   const routePrices = INTERNATIONAL_FLIGHT_PRICES[route];
   if (!routePrices) return 0;
   return routePrices[type] * persons;
 }
 
 export function calculateDomesticFlights(
-  routes: string[],
-  persons: number
-): number {
+  routes,
+  persons
+) {
   return routes.length * DOMESTIC_FLIGHT_PRICE * persons;
 }
 
-export function calculateVehicle(vehicleId: string, days: number): number {
+export function calculateVehicle(vehicleId, days) {
   const vehicle = vehicles.find((v) => v.id === vehicleId);
   if (!vehicle) return 0;
   return vehicle.pricePerDay * days;
 }
 
-export function calculateGuide(days: number): number {
+export function calculateGuide(days) {
   return GUIDE_RATE * days;
 }
 
 export function calculateHotel(
-  hotelId: string,
-  nights: number,
-  roomType?: string
-): number {
+  hotelId,
+  nights,
+  roomType
+) {
   const hotel = hotels.find((h) => h.id === hotelId);
   if (!hotel) return 0;
   if (roomType) {
@@ -109,29 +66,29 @@ export function calculateHotel(
   return hotel.pricePerNight * nights;
 }
 
-export function calculateTours(tourIds: string[], persons: number): number {
+export function calculateTours(tourIds, persons) {
   return tourIds.reduce((sum, id) => {
     const tour = tours.find((t) => t.id === id);
     return sum + (tour ? tour.pricePerPerson * persons : 0);
   }, 0);
 }
 
-export function calculateExperiences(experienceIds: string[], persons: number): number {
+export function calculateExperiences(experienceIds, persons) {
   return experienceIds.reduce((sum, id) => {
     const exp = experiences.find((e) => e.id === id);
     return sum + (exp ? exp.price * persons : 0);
   }, 0);
 }
 
-export function calculateFood(foodIds: string[], persons: number): number {
+export function calculateFood(foodIds, persons) {
   return foodIds.reduce((sum, id) => {
     const food = foodExperiences.find((f) => f.id === id);
     return sum + (food ? food.pricePerPerson * persons : 0);
   }, 0);
 }
 
-export function calculateTotal(params: CalculatorInput): CostBreakdown {
-  const itemized: ItemizedCost[] = [];
+export function calculateTotal(params) {
+  const itemized = [];
 
   const sdf = calculateSDF(params.days, params.persons);
   itemized.push({

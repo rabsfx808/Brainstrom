@@ -1,14 +1,5 @@
-export interface FoodExperience {
-  id: string;
-  name: string;
-  description: string;
-  pricePerPerson: number;
-  menu: string[];
-  dietaryNotes: string;
-  duration: string;
-}
 
-export const foodExperiences: FoodExperience[] = [
+export const foodExperiences = [
   {
     id: "traditional-set-menu",
     name: "Traditional Bhutanese Set Menu",

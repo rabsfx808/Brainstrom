@@ -8,11 +8,7 @@ export function generateStaticParams() {
   return destinations.map((d) => ({ id: d.id }));
 }
 
-export default function DzongkhagDetailPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default function DzongkhagDetailPage({ params }) {
   const dzongkhag = destinations.find((d) => d.id === params.id);
 
   if (!dzongkhag) {

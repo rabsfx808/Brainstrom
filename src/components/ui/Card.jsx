@@ -1,15 +1,5 @@
 import React from "react";
 
-interface CardProps {
-  title: string;
-  description?: string;
-  price?: number;
-  priceSuffix?: string;
-  imageArea?: React.ReactNode;
-  children?: React.ReactNode;
-  className?: string;
-}
-
 export default function Card({
   title,
   description,
@@ -18,7 +8,7 @@ export default function Card({
   imageArea,
   children,
   className = "",
-}: CardProps) {
+}) {
   return (
     <div
       className={`bg-white rounded-lg shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-shadow duration-300 ${className}`}

@@ -8,11 +8,7 @@ export function generateStaticParams() {
   return tours.map((t) => ({ id: t.id }));
 }
 
-export default function TourDetailPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default function TourDetailPage({ params }) {
   const tour = tours.find((t) => t.id === params.id);
 
   if (!tour) {

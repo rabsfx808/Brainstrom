@@ -1,15 +1,5 @@
-export interface Vehicle {
-  id: string;
-  name: string;
-  category: string;
-  type: string;
-  capacity: number;
-  pricePerDay: number;
-  features: string[];
-  imageDescription: string;
-}
 
-export const vehicles: Vehicle[] = [
+export const vehicles = [
   {
     id: "land-cruiser-prado",
     name: "Toyota Land Cruiser Prado",
