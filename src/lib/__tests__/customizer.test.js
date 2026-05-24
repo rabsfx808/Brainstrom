@@ -1,9 +1,9 @@
-import { getRecommendations, CustomerPreferences } from "@/lib/customizer";
+import { getRecommendations } from "@/lib/customizer";
 
 describe("Customizer Module", () => {
   describe("getRecommendations", () => {
     it("should return luxury honeymoon tour as highest match for luxury honeymoon preferences", () => {
-      const preferences: CustomerPreferences = {
+      const preferences = {
         budget: "luxury",
         tripType: "honeymoon",
         duration: 10,
@@ -17,7 +17,7 @@ describe("Customizer Module", () => {
     });
 
     it("should return premium cultural tour for premium cultural preferences", () => {
-      const preferences: CustomerPreferences = {
+      const preferences = {
         budget: "premium",
         tripType: "cultural",
         duration: 6,
@@ -31,7 +31,7 @@ describe("Customizer Module", () => {
     });
 
     it("should not recommend 5-star hotels for moderate budget", () => {
-      const preferences: CustomerPreferences = {
+      const preferences = {
         budget: "moderate",
         tripType: "cultural",
         duration: 6,
@@ -45,7 +45,7 @@ describe("Customizer Module", () => {
     });
 
     it("should recommend 5-star hotels for luxury budget", () => {
-      const preferences: CustomerPreferences = {
+      const preferences = {
         budget: "luxury",
         tripType: "honeymoon",
         duration: 10,
@@ -59,7 +59,7 @@ describe("Customizer Module", () => {
     });
 
     it("should prefer tours within +/-2 days of requested duration", () => {
-      const preferences: CustomerPreferences = {
+      const preferences = {
         budget: "premium",
         tripType: "honeymoon",
         duration: 7,
@@ -73,7 +73,7 @@ describe("Customizer Module", () => {
     });
 
     it("should recommend sedan for group size 1-2", () => {
-      const preferences: CustomerPreferences = {
+      const preferences = {
         budget: "premium",
         tripType: "cultural",
         duration: 6,
@@ -85,7 +85,7 @@ describe("Customizer Module", () => {
     });
 
     it("should recommend bus/coach for group size 10+", () => {
-      const preferences: CustomerPreferences = {
+      const preferences = {
         budget: "premium",
         tripType: "cultural",
         duration: 6,
@@ -97,7 +97,7 @@ describe("Customizer Module", () => {
     });
 
     it("should include cultural experiences for monasteries interest", () => {
-      const preferences: CustomerPreferences = {
+      const preferences = {
         budget: "premium",
         tripType: "cultural",
         duration: 6,
@@ -110,7 +110,7 @@ describe("Customizer Module", () => {
     });
 
     it("should have matchScore between 0 and 100", () => {
-      const preferences: CustomerPreferences = {
+      const preferences = {
         budget: "premium",
         tripType: "adventure",
         duration: 7,
@@ -125,7 +125,7 @@ describe("Customizer Module", () => {
     });
 
     it("should return top 3 results sorted by matchScore descending", () => {
-      const preferences: CustomerPreferences = {
+      const preferences = {
         budget: "premium",
         tripType: "cultural",
         duration: 6,
@@ -140,7 +140,7 @@ describe("Customizer Module", () => {
     });
 
     it("should include SDF and visa fee in the breakdown", () => {
-      const preferences: CustomerPreferences = {
+      const preferences = {
         budget: "premium",
         tripType: "cultural",
         duration: 6,
@@ -156,13 +156,13 @@ describe("Customizer Module", () => {
       const sdfEntry = breakdown.find((b) => b.category === "Sustainable Development Fee");
       const visaEntry = breakdown.find((b) => b.category === "Visa Fee");
       // SDF = $200 * tour.duration * groupSize
-      expect(sdfEntry!.amount).toBe(200 * results[0].tour.duration * 2);
+      expect(sdfEntry.amount).toBe(200 * results[0].tour.duration * 2);
       // Visa = $40 * groupSize
-      expect(visaEntry!.amount).toBe(40 * 2);
+      expect(visaEntry.amount).toBe(40 * 2);
     });
 
     it("should multiply tour price by group size in estimate", () => {
-      const preferences: CustomerPreferences = {
+      const preferences = {
         budget: "premium",
         tripType: "cultural",
         duration: 6,
@@ -171,11 +171,11 @@ describe("Customizer Module", () => {
       };
       const results = getRecommendations(preferences);
       const tourAmount = results[0].breakdown.find((b) => b.category === "Tour Package");
-      expect(tourAmount!.amount).toBe(results[0].tour.pricePerPerson * 2);
+      expect(tourAmount.amount).toBe(results[0].tour.pricePerPerson * 2);
     });
 
     it("should filter out expensive tours for moderate budget", () => {
-      const preferences: CustomerPreferences = {
+      const preferences = {
         budget: "moderate",
         tripType: "honeymoon",
         duration: 7,

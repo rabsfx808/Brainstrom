@@ -5,11 +5,11 @@ import { hotels } from "@/data/hotels";
 import StarRating from "@/components/ui/StarRating";
 import PriceTag from "@/components/ui/PriceTag";
 
-const starFilters = ["All", "3", "4", "5"] as const;
+const starFilters = ["All", "3", "4", "5"];
 
 export default function HotelsPage() {
-  const [starFilter, setStarFilter] = useState<string>("All");
-  const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [starFilter, setStarFilter] = useState("All");
+  const [expandedId, setExpandedId] = useState(null);
 
   const filtered = hotels.filter(
     (h) => starFilter === "All" || h.starRating === Number(starFilter)

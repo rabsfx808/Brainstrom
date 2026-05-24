@@ -6,7 +6,7 @@ import { hotels } from "@/data/hotels";
 import { tours } from "@/data/tours";
 import { experiences } from "@/data/experiences";
 import { foodExperiences } from "@/data/food";
-import { calculateTotal, CostBreakdown, CalculatorInput } from "@/lib/calculator";
+import { calculateTotal } from "@/lib/calculator";
 
 const INTERNATIONAL_ROUTES = [
   "Bangkok-Paro",
@@ -27,8 +27,8 @@ export default function CalculatorPage() {
   const [travelers, setTravelers] = useState(2);
   const [days, setDays] = useState(7);
   const [internationalRoute, setInternationalRoute] = useState("");
-  const [flightType, setFlightType] = useState<"return" | "onward">("return");
-  const [domesticRoutes, setDomesticRoutes] = useState<string[]>([]);
+  const [flightType, setFlightType] = useState("return");
+  const [domesticRoutes, setDomesticRoutes] = useState([]);
   const [vehicleId, setVehicleId] = useState("");
   const [vehicleDays, setVehicleDays] = useState(7);
   const [hotelId, setHotelId] = useState("");
@@ -36,12 +36,12 @@ export default function CalculatorPage() {
   const [hotelNights, setHotelNights] = useState(6);
   const [guideEnabled, setGuideEnabled] = useState(true);
   const [guideDays, setGuideDays] = useState(7);
-  const [selectedTours, setSelectedTours] = useState<string[]>([]);
-  const [selectedExperiences, setSelectedExperiences] = useState<string[]>([]);
-  const [selectedFood, setSelectedFood] = useState<string[]>([]);
+  const [selectedTours, setSelectedTours] = useState([]);
+  const [selectedExperiences, setSelectedExperiences] = useState([]);
+  const [selectedFood, setSelectedFood] = useState([]);
   const [showSummary, setShowSummary] = useState(false);
 
-  const getInput = (): CalculatorInput => ({
+  const getInput = () => ({
     days,
     persons: travelers,
     internationalRoute: internationalRoute || undefined,
@@ -58,27 +58,27 @@ export default function CalculatorPage() {
     foodIds: selectedFood.length > 0 ? selectedFood : undefined,
   });
 
-  const breakdown: CostBreakdown = calculateTotal(getInput());
+  const breakdown = calculateTotal(getInput());
 
-  const toggleDomesticRoute = (route: string) => {
+  const toggleDomesticRoute = (route) => {
     setDomesticRoutes((prev) =>
       prev.includes(route) ? prev.filter((r) => r !== route) : [...prev, route]
     );
   };
 
-  const toggleTour = (id: string) => {
+  const toggleTour = (id) => {
     setSelectedTours((prev) =>
       prev.includes(id) ? prev.filter((t) => t !== id) : [...prev, id]
     );
   };
 
-  const toggleExperience = (id: string) => {
+  const toggleExperience = (id) => {
     setSelectedExperiences((prev) =>
       prev.includes(id) ? prev.filter((e) => e !== id) : [...prev, id]
     );
   };
 
-  const toggleFood = (id: string) => {
+  const toggleFood = (id) => {
     setSelectedFood((prev) =>
       prev.includes(id) ? prev.filter((f) => f !== id) : [...prev, id]
     );
@@ -204,7 +204,7 @@ export default function CalculatorPage() {
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">Flight Type</label>
                         <div className="flex gap-4">
-                          {(["return", "onward"] as const).map((t) => (
+                          {(["return", "onward"]).map((t) => (
                             <label key={t} className="flex items-center gap-2">
                               <input
                                 type="radio"

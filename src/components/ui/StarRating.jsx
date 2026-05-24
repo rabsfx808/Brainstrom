@@ -1,16 +1,10 @@
 import React from "react";
 
-interface StarRatingProps {
-  rating: number;
-  maxRating?: number;
-  className?: string;
-}
-
 export default function StarRating({
   rating,
   maxRating = 5,
   className = "",
-}: StarRatingProps) {
+}) {
   return (
     <div className={`flex items-center gap-0.5 ${className}`} aria-label={`${rating} out of ${maxRating} stars`}>
       {Array.from({ length: maxRating }, (_, i) => (

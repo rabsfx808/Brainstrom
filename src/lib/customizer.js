@@ -1,45 +1,10 @@
-import { tours, Tour } from "@/data/tours";
-import { hotels, Hotel } from "@/data/hotels";
-import { vehicles, Vehicle } from "@/data/vehicles";
-import { experiences, Experience } from "@/data/experiences";
-import { foodExperiences, FoodExperience } from "@/data/food";
+import { tours } from "@/data/tours";
+import { hotels } from "@/data/hotels";
+import { vehicles } from "@/data/vehicles";
+import { experiences } from "@/data/experiences";
+import { foodExperiences } from "@/data/food";
 
-export interface CustomerPreferences {
-  budget: "moderate" | "premium" | "luxury";
-  tripType:
-    | "honeymoon"
-    | "anniversary"
-    | "cultural"
-    | "adventure"
-    | "wellness"
-    | "festival";
-  duration: number;
-  interests: (
-    | "monasteries"
-    | "nature"
-    | "food"
-    | "wellness"
-    | "adventure"
-    | "romance"
-    | "photography"
-    | "history"
-  )[];
-  groupSize: number;
-  specialRequests?: string;
-}
-
-export interface RecommendedPackage {
-  matchScore: number;
-  tour: Tour;
-  hotel: Hotel;
-  vehicle: Vehicle;
-  experiences: Experience[];
-  food: FoodExperience[];
-  estimatedTotal: number;
-  breakdown: { category: string; amount: number }[];
-}
-
-const INTEREST_TO_EXPERIENCE_CATEGORY: Record<string, string[]> = {
+const INTEREST_TO_EXPERIENCE_CATEGORY = {
   monasteries: ["cultural"],
   nature: ["adventure"],
   food: ["cultural"],
@@ -50,7 +15,7 @@ const INTEREST_TO_EXPERIENCE_CATEGORY: Record<string, string[]> = {
   history: ["cultural"],
 };
 
-const TRIP_TYPE_TO_FOOD: Record<string, string[]> = {
+const TRIP_TYPE_TO_FOOD = {
   honeymoon: ["candlelight-dinner", "riverside-picnic", "royal-feast"],
   anniversary: ["candlelight-dinner", "royal-feast", "hot-stone-bath-dinner"],
   cultural: [
@@ -67,18 +32,18 @@ const TRIP_TYPE_TO_FOOD: Record<string, string[]> = {
   festival: ["royal-feast", "traditional-set-menu", "cooking-class"],
 };
 
-function getBudgetTier(budget: string): "premium" | "luxury" {
+function getBudgetTier(budget) {
   if (budget === "luxury") return "luxury";
   return "premium";
 }
 
-function getHotelStarRating(budget: string): number {
+function getHotelStarRating(budget) {
   if (budget === "moderate") return 3;
   if (budget === "premium") return 4;
   return 5;
 }
 
-function selectVehicleByGroupSize(groupSize: number): Vehicle | undefined {
+function selectVehicleByGroupSize(groupSize) {
   if (groupSize <= 2) {
     return vehicles.find((v) => v.type === "Sedan");
   } else if (groupSize <= 4) {
@@ -93,7 +58,7 @@ function selectVehicleByGroupSize(groupSize: number): Vehicle | undefined {
         // Sort by capacity ascending (smallest sufficient vehicle first)
         if (a.capacity !== b.capacity) return a.capacity - b.capacity;
         // Secondary: prefer Luxury SUV / Premium over Bus
-        const categoryPriority = (cat: string) => {
+        const categoryPriority = (cat) => {
           if (cat === "Premium" || cat === "Luxury SUV") return 0;
           return 1;
         };
@@ -104,9 +69,9 @@ function selectVehicleByGroupSize(groupSize: number): Vehicle | undefined {
 }
 
 function scoreTour(
-  tour: Tour,
-  preferences: CustomerPreferences
-): number {
+  tour,
+  preferences
+) {
   let score = 0;
 
   // Category match to tripType: exact match = 40 points
@@ -134,9 +99,9 @@ function scoreTour(
 }
 
 function matchExperiences(
-  interests: string[]
-): Experience[] {
-  const matchedCategories = new Set<string>();
+  interests
+) {
+  const matchedCategories = new Set();
   interests.forEach((interest) => {
     const categories = INTEREST_TO_EXPERIENCE_CATEGORY[interest];
     if (categories) {
@@ -147,14 +112,14 @@ function matchExperiences(
   return experiences.filter((exp) => matchedCategories.has(exp.category));
 }
 
-function matchFood(tripType: string): FoodExperience[] {
+function matchFood(tripType) {
   const foodIds = TRIP_TYPE_TO_FOOD[tripType] || [];
   return foodExperiences.filter((f) => foodIds.includes(f.id));
 }
 
 export function getRecommendations(
-  preferences: CustomerPreferences
-): RecommendedPackage[] {
+  preferences
+) {
   const tier = getBudgetTier(preferences.budget);
   const starRating = getHotelStarRating(preferences.budget);
 

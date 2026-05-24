@@ -1,20 +1,6 @@
-export interface RoomType {
-  name: string;
-  price: number;
-}
 
-export interface Hotel {
-  id: string;
-  name: string;
-  location: string;
-  starRating: number;
-  pricePerNight: number;
-  description: string;
-  amenities: string[];
-  roomTypes: RoomType[];
-}
 
-export const hotels: Hotel[] = [
+export const hotels = [
   // 3-star hotels
   {
     id: "hotel-druk",

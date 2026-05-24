@@ -12,10 +12,10 @@ const categories = [
   "Bus",
   "Sedan",
   "Premium",
-] as const;
+];
 
 export default function VehiclesPage() {
-  const [categoryFilter, setCategoryFilter] = useState<string>("All");
+  const [categoryFilter, setCategoryFilter] = useState("All");
 
   const filtered = vehicles.filter(
     (v) => categoryFilter === "All" || v.category === categoryFilter

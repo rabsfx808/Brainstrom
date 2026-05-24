@@ -1,15 +1,5 @@
-export interface Experience {
-  id: string;
-  name: string;
-  category: string;
-  description: string;
-  price: number;
-  priceType: "per_person" | "per_couple" | "per_day";
-  duration: string;
-  location: string;
-}
 
-export const experiences: Experience[] = [
+export const experiences = [
   // Cultural experiences
   {
     id: "simply-bhutan-museum",

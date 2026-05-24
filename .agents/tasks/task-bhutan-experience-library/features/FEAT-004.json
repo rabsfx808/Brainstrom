@@ -1,0 +1,31 @@
+{
+  "id": "FEAT-004",
+  "type": "feat",
+  "description": "Convert the project from TypeScript (.tsx/.ts files) to plain JavaScript with JSX (.jsx/.js files). Remove all TypeScript type annotations, interfaces, and type imports. Replace tsconfig.json with jsconfig.json for path aliases. Update package.json to remove TypeScript-related dependencies. Update jest config to work with plain JS.",
+  "status": "completed",
+  "steps": [
+    "Rename all .tsx files to .jsx and all .ts files to .js (except config files that need to stay as-is)",
+    "Remove all TypeScript type annotations, interfaces, and type imports from the code",
+    "Remove tsconfig.json and create jsconfig.json with @/ path alias",
+    "Update package.json to remove typescript, @types/*, and ts-jest dependencies",
+    "Convert jest.config.ts to jest.config.js and update to work without ts-jest",
+    "Remove next-env.d.ts",
+    "Verify npm run build passes",
+    "Verify npm test passes"
+  ],
+  "acceptance_criteria": [
+    "No .ts or .tsx files remain in the src/ directory",
+    "All files use .js or .jsx extensions",
+    "No TypeScript type annotations remain in the code",
+    "package.json has no TypeScript-related dependencies",
+    "jsconfig.json provides the @/ path alias",
+    "npm run build succeeds",
+    "npm test passes all tests"
+  ],
+  "verification": [
+    "Run npm run build in /projects/sandbox/Brainstrom and confirm exit code 0",
+    "Run npm test in /projects/sandbox/Brainstrom and confirm all tests pass"
+  ],
+  "blocked_reason": null,
+  "findings": "Conversion successful. All 37 tests pass and build produces 42 static pages. Used babel-jest with next/babel preset instead of ts-jest. The non-null assertion operator (!) from TypeScript had to be removed from test files. Record<> type annotations had to be manually removed from a few files missed by the initial script. Next.js handles JSX files natively without any additional configuration beyond jsconfig.json for path aliases."
+}

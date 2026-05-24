@@ -5,12 +5,10 @@ import { experiences } from "@/data/experiences";
 import Badge from "@/components/ui/Badge";
 import PriceTag from "@/components/ui/PriceTag";
 
-const categories = ["all", "cultural", "romantic", "adventure", "wellness"] as const;
+const categories = ["all", "cultural", "romantic", "adventure", "wellness"];
 
-function getPriceTypeSuffix(
-  priceType: "per_person" | "per_couple" | "per_day"
-): "per person" | "per couple" | "per day" {
-  const map: Record<string, "per person" | "per couple" | "per day"> = {
+function getPriceTypeSuffix(priceType) {
+  const map = {
     per_person: "per person",
     per_couple: "per couple",
     per_day: "per day",
@@ -18,10 +16,8 @@ function getPriceTypeSuffix(
   return map[priceType];
 }
 
-function getCategoryVariant(
-  category: string
-): "cultural" | "romantic" | "adventure" | "wellness" | "default" {
-  const map: Record<string, "cultural" | "romantic" | "adventure" | "wellness"> = {
+function getCategoryVariant(category) {
+  const map = {
     cultural: "cultural",
     romantic: "romantic",
     adventure: "adventure",
@@ -31,7 +27,7 @@ function getCategoryVariant(
 }
 
 export default function ExperiencesPage() {
-  const [categoryFilter, setCategoryFilter] = useState<string>("all");
+  const [categoryFilter, setCategoryFilter] = useState("all");
 
   const filtered = experiences.filter(
     (e) => categoryFilter === "all" || e.category === categoryFilter
