@@ -1,0 +1,29 @@
+{
+  "id": "FEAT-003",
+  "type": "feat",
+  "description": "Implement the Tour Calculator and Package Customizer. The calculator computes total trip cost from SDF, air tickets, domestic flights, vehicle rental, guide fees, visa fees, days of stay, selected tours, and hotels. The customizer is a matchmaking tool that recommends packages based on customer preferences (budget, trip type, duration, interests, group size).",
+  "status": "pending",
+  "steps": [
+    "Create src/lib/calculator.ts - Export a TourCalculator class/module with: calculateSDF(days: number, persons: number) using Bhutan's actual SDF rate of $200/person/night, calculateVisaFee(persons: number) at $40/person, calculateAirTicket(origin: string, returnOrNext: 'return'|'next', persons: number) with preset routes (Bangkok-Paro $600 return, Delhi-Paro $400 return, Kathmandu-Paro $350 return, Singapore-Paro $700 return), calculateDomesticFlights(routes: string[], persons: number) at $150/person per route (Paro-Bumthang, Bumthang-Trashigang, etc.), calculateVehicle(vehicleId: string, days: number) looking up from vehicles data, calculateGuide(days: number) at $40/day, calculateHotel(hotelId: string, nights: number, roomType: string) looking up from hotels data, calculateTotal() that sums all components. Return itemized breakdown.",
+    "Create src/app/calculator/page.tsx - Interactive tour calculator page with a multi-step form: Step 1: Trip basics (number of travelers, days of stay, arrival date). Step 2: Flights (international route selection with return/onward option, domestic flight routes as checkboxes). Step 3: Vehicle selection (pick from vehicles data with duration). Step 4: Accommodation (select hotel and room type for each night or groups of nights). Step 5: Guide services (yes/no, number of days). Step 6: Tours and experiences (select from available tours/experiences). Display running total that updates as selections change. Final summary shows itemized cost breakdown with SDF, visa, flights, vehicle, hotel, guide, tours, experiences, food, and grand total.",
+    "Create src/lib/customizer.ts - Export a PackageCustomizer that takes preferences: { budget: 'moderate'|'premium'|'luxury', tripType: 'honeymoon'|'anniversary'|'cultural'|'adventure'|'wellness'|'festival', duration: number (days), interests: string[] (from: 'monasteries'|'nature'|'food'|'wellness'|'adventure'|'romance'|'photography'|'history'), groupSize: number, specialRequests: string }. The matchmaking algorithm: 1) Filter tours by tier matching budget, 2) Score tours by category match to tripType, 3) Score by duration proximity, 4) Select matching hotels by budget tier, 5) Recommend vehicles by group size, 6) Suggest experiences matching interests, 7) Suggest food experiences, 8) Calculate estimated total. Return a ranked list of recommended packages with full breakdown.",
+    "Create src/app/customize/page.tsx - Package Customizer page with an interactive wizard/questionnaire: Step 1: What's your occasion? (cards for honeymoon, anniversary, cultural, adventure, wellness, festival). Step 2: What's your budget level? (Premium vs Luxury with price range indicators). Step 3: How many days? (slider or input, 3-21 days). Step 4: What interests you? (multi-select grid of interests with icons). Step 5: Group size (1-20). Step 6: Any special requests? (text area). Results page shows: Top 3 recommended packages with full itinerary, pricing breakdown, matching score percentage, option to adjust/refine, and link to calculator for detailed costing.",
+    "Add unit tests: Create src/lib/__tests__/calculator.test.ts testing SDF calculation (5 days x 2 persons = $2000), visa fee (2 persons = $80), air ticket lookup, domestic flight calculation, vehicle cost lookup, guide cost, hotel cost lookup, and total calculation with all components. Create src/lib/__tests__/customizer.test.ts testing preference matching (luxury honeymoon should return luxury honeymoon tours first, budget moderate should not return 5-star hotels, duration matching should prefer tours within +/-2 days of requested)."
+  ],
+  "acceptance_criteria": [
+    "Calculator correctly computes SDF at $200/person/night",
+    "Calculator sums all cost components into an itemized total",
+    "Calculator page renders a multi-step form that updates running total",
+    "Customizer accepts preferences and returns ranked package recommendations",
+    "Customizer matches budget tier to appropriate hotels and tours",
+    "Customize page renders the questionnaire wizard and shows results",
+    "npm run build succeeds",
+    "npm test passes all calculator and customizer unit tests"
+  ],
+  "verification": [
+    "Run npm run build in /projects/sandbox/Brainstrom and confirm exit code 0",
+    "Run npm test in /projects/sandbox/Brainstrom and confirm all tests pass"
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}

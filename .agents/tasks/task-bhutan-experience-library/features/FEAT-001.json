@@ -1,0 +1,29 @@
+{
+  "id": "FEAT-001",
+  "type": "feat",
+  "description": "Initialize Next.js 14 project with TypeScript, Tailwind CSS, and the complete data layer containing all Bhutan travel data (destinations by Dzongkhag, tours/packages, vehicles, hotels, food, experiences) with pricing. Also set up the project structure with shared layout, navigation, and reusable UI components.",
+  "status": "in_progress",
+  "steps": [
+    "Initialize Next.js 14 app with TypeScript and Tailwind CSS in the project root /projects/sandbox/Brainstrom. Use App Router. Configure tailwind.config.ts and globals.css with a Bhutan-inspired color palette (deep reds, golds, forest greens, whites).",
+    "Create src/data/destinations.ts - Export an array of all 20 Dzongkhags of Bhutan. Each Dzongkhag object should have: id, name, description, facts (array of strings), places (array of {name, description, whyVisit, entryFee}). Include real Bhutan data: Thimphu (Buddha Dordenma, Tashichho Dzong, Memorial Chorten, Simply Bhutan), Paro (Tiger's Nest/Taktsang, Rinpung Dzong, National Museum, Drukgyel Dzong), Punakha (Punakha Dzong, Chimi Lhakhang, Khamsum Yulley Namgyal Chorten), Bumthang (Jambay Lhakhang, Kurjey Lhakhang, Burning Lake, Tamshing Monastery), Haa (Haa Valley, Lhakhang Karpo, Lhakhang Nagpo), Wangdue Phodrang (Gangtey Valley, Phobjikha, Black-Necked Crane Center), Trongsa (Trongsa Dzong, Ta Dzong, Chendbji Chorten), Zhemgang, Trashigang, Mongar, Lhuentse, Samdrup Jongkhar, Pemagatshel, Trashi Yangtse, Dagana, Tsirang, Sarpang, Samtse, Gasa (hot springs, Gasa Dzong, Laya), Chhukha.",
+    "Create src/data/tours.ts - Export tour packages with two price tiers: Premium and Luxury. Include: Premium Honeymoon (7 days, romantic destinations), Luxury Honeymoon (10 days, exclusive experiences), Premium Anniversary Special (5 days), Luxury Anniversary Special (8 days), Premium Cultural Tour (6 days), Luxury Cultural Tour (9 days), Premium Adventure Tour (7 days), Luxury Adventure Tour (10 days), Premium Festival Tour (5 days), Luxury Festival Tour (8 days). Each tour has: id, name, tier ('premium'|'luxury'), category, duration (days), description, highlights (string[]), inclusions (string[]), pricePerPerson (USD), itinerary (day-by-day array).",
+    "Create src/data/vehicles.ts - Export vehicle options available in Bhutan with daily rental pricing. Categories: Luxury SUV (Toyota Land Cruiser Prado $150/day, Hyundai Tucson $120/day), Electric (Hyundai Ioniq 5 $130/day, BYD Atto 3 $110/day), Bus (Luxury Coach 20-seater $300/day, Mini Bus 12-seater $200/day), Sedan (Toyota Camry $100/day, Hyundai Sonata $90/day), Premium (Mercedes GLC $200/day, BMW X5 $220/day). Each vehicle: id, name, category, type, capacity, pricePerDay, features (string[]), image description.",
+    "Create src/data/hotels.ts - Export hotels across Bhutan organized by star rating. 3-star: Hotel Druk, Namgay Heritage, Meri Puensum Resort ($80-120/night). 4-star: Terma Linca, Zhiwaling Heritage, Le Meridien Thimphu, Naksel Boutique ($150-250/night). 5-star: Amankora, Six Senses, COMO Uma Paro, COMO Uma Punakha, Taj Tashi, Le Meridien Paro ($400-1500/night). Each hotel: id, name, location (dzongkhag), starRating, pricePerNight, description, amenities (string[]), roomTypes ({name, price}[]).",
+    "Create src/data/food.ts - Export premium Bhutanese food experiences with pricing. Include: Traditional Bhutanese Set Menu ($25/person - Ema Datshi, Red Rice, Phaksha Paa, Jasha Maru), Royal Bhutanese Feast ($60/person - multi-course with Suja butter tea, Momos, Sikam Datshi, desserts), Hot Stone Bath & Dinner ($80/person), Farm-to-Table Experience ($45/person), Cooking Class ($35/person), Romantic Candlelight Dinner ($120/couple), Riverside Picnic ($50/person). Each: id, name, description, pricePerPerson, menu (string[]), dietary notes, duration.",
+    "Create src/data/experiences.ts - Export unique Bhutan experiences with pricing. Categories: Cultural (Simply Bhutan museum $15, Monastery visits $10-20, Dzong tours $10, Traditional archery $25, Mask dance performance $30), Romantic (Candlelight dinner at Tiger's Nest view $200/couple, Couples spa at hot springs $150/couple, Sunrise trek $50/person, River rafting $60/person), Adventure (Tiger's Nest trek $0 - included, Mountain biking $45, White water rafting $60, Rock climbing $40, Paragliding $80), Wellness (Hot stone bath $30, Traditional medicine consultation $50, Meditation retreat $100/day, Yoga session $25). Each: id, name, category, description, pricePerPerson or pricePerCouple, duration, location.",
+    "Create src/components/ui/ directory with reusable components: Card.tsx (generic card with image area, title, description, price badge), Badge.tsx (for tier labels like Premium/Luxury), PriceTag.tsx (formatted USD price display), StarRating.tsx (visual star display for hotels), Navigation.tsx (main nav with links to all sections), Footer.tsx, Hero.tsx (landing page hero).",
+    "Create src/app/layout.tsx with Navigation component, metadata for SEO, and global styles. Create src/app/page.tsx as the landing/home page with a hero section showcasing Bhutan ('Land of the Thunder Dragon'), quick overview cards linking to each section (Destinations, Tours, Calculator, Vehicles, Hotels, Food, Experiences, Customize), and key stats about Bhutan."
+  ],
+  "acceptance_criteria": [
+    "npm install completes without errors",
+    "npm run build compiles successfully",
+    "All data files export properly typed arrays with realistic Bhutan data and USD pricing",
+    "Home page renders with navigation links to all 8 main sections",
+    "Tailwind CSS is configured and styling is applied"
+  ],
+  "verification": [
+    "Run npm install && npm run build in /projects/sandbox/Brainstrom and confirm exit code 0"
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}

@@ -1,0 +1,7 @@
+{
+  "task_id": "task-bhutan-experience-library",
+  "task_description": "Build a comprehensive Bhutan Travel Experience Library as a Next.js application with 8 core modules: Destinations (by Dzongkhag), Tours/Packages (Premium/Luxury tiers), Tour Calculator (itemized cost computation), Vehicles, Hotels, Food, Experiences, and a Package Customizer (matchmaking tool). All items include USD pricing for total cost calculation.",
+  "status": "in_progress",
+  "feature_order": ["FEAT-001", "FEAT-002", "FEAT-003"],
+  "blocked_reason": null
+}
