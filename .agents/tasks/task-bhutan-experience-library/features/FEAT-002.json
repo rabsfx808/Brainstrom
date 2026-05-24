@@ -1,0 +1,31 @@
+{
+  "id": "FEAT-002",
+  "type": "feat",
+  "description": "Build all page-level routes: Destinations (list all, filter by Dzongkhag, detail pages), Tours/Packages (grid with tier filters), Vehicles (categorized grid), Hotels (star-rating filter), Food (menu-style listing), and Experiences (categorized with filters). Each page should display items with their prices and relevant details from the data layer.",
+  "status": "completed",
+  "steps": [
+    "Create src/app/destinations/page.tsx - Main destinations page showing all 20 Dzongkhags as cards in a grid. Each card shows Dzongkhag name, brief description, number of places. Include a search/filter bar to filter by name.",
+    "Create src/app/destinations/[id]/page.tsx - Dzongkhag detail page showing: Dzongkhag name, full description, facts list, and a grid of places worth visiting. Each place shows name, description, why to visit, and entry fee if applicable.",
+    "Create src/app/tours/page.tsx - Tours/Packages page with a tier toggle (Premium/Luxury/All). Display tours as detailed cards showing: name, tier badge, category, duration, price per person, highlights preview. Add category filter (Honeymoon, Anniversary, Cultural, Adventure, Festival).",
+    "Create src/app/tours/[id]/page.tsx - Tour detail page showing full itinerary (day-by-day), all inclusions, highlights, pricing breakdown, and a CTA to customize or book.",
+    "Create src/app/vehicles/page.tsx - Vehicle selection page with category tabs (Luxury SUV, Electric, Bus, Sedan, Premium). Display each vehicle as a card with name, capacity, price per day, features list.",
+    "Create src/app/hotels/page.tsx - Hotels page with star-rating filter tabs (3-star, 4-star, 5-star, All). Show hotel cards with name, location, star rating visualization, price range, amenities preview. Clicking expands to show room types and prices.",
+    "Create src/app/food/page.tsx - Food experiences page showing all dining options as menu-style cards. Each shows name, description, price per person, menu items, duration, dietary info.",
+    "Create src/app/experiences/page.tsx - Experiences page with category filter tabs (Cultural, Romantic, Adventure, Wellness, All). Display experience cards with name, category badge, price, duration, location, description."
+  ],
+  "acceptance_criteria": [
+    "All 8 page routes render without errors",
+    "Destinations page lists Dzongkhags and detail pages show places with prices",
+    "Tours page shows packages filtered by tier and category with pricing",
+    "Vehicles page shows categorized transport options with daily rates",
+    "Hotels page shows star-filtered hotels with nightly prices",
+    "Food page shows dining experiences with per-person pricing",
+    "Experiences page shows categorized activities with pricing",
+    "npm run build succeeds with all pages"
+  ],
+  "verification": [
+    "Run npm run build in /projects/sandbox/Brainstrom and confirm all pages compile without errors"
+  ],
+  "blocked_reason": null,
+  "findings": "All 8 page routes build successfully. Used generateStaticParams for detail pages. 40 static pages generated total. No test command configured (npm test not set up), but npm run build passes clean."
+}
