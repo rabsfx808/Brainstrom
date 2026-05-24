@@ -9,6 +9,6 @@
     "tests": "pass",
     "test_quality": "pass",
     "docker_build": "skipped",
-    "summary": "npm run build exits 0 with 42 static pages generated. npm test passes all 32 tests (calculator and customizer). Tests exercise real business logic with concrete assertions on pricing calculations, tier matching, and recommendation scoring."
+    "summary": "npm run build exits 0 with 42 static pages generated. npm test passes all 37 tests (calculator and customizer). Semantic review issues addressed: tours/experiences multiplied by persons, customizer includes SDF/visa with groupSize multiplication, candlelight dinner pricing fixed, moderate budget has price ceiling, vehicle selection is capacity-based, hotel selection prefers location match."
   }
 }
