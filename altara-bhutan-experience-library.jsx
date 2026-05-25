@@ -1,5 +1,106 @@
 import React, { useState } from 'react';
 
+// ===== BRAND COLORS =====
+const BRAND = {
+  deepGreen: '#1B3D2F',
+  gold: '#C9A94E',
+  ivory: '#FDFBF5',
+  charcoal: '#1A1A1A',
+  white: '#FFFFFF',
+};
+
+// ===== SVG LOGO COMPONENTS =====
+
+// LogoMark - Abstract lotus/Tara icon (minimal, geometric, works at 24px-200px)
+function LogoMark({ size = 40, color = BRAND.gold }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      {/* Center petal - upward flame/lotus bud */}
+      <path d="M32 6 C32 6 26 20 26 32 C26 40 28.5 46 32 50 C35.5 46 38 40 38 32 C38 20 32 6 32 6Z" fill={color} opacity="0.95"/>
+      {/* Left outer petal */}
+      <path d="M20 52 C20 52 18 38 22 28 C25 21 28 18 30 16 C26 22 23 30 23 38 C23 44 24 48 20 52Z" fill={color} opacity="0.6"/>
+      {/* Right outer petal */}
+      <path d="M44 52 C44 52 46 38 42 28 C39 21 36 18 34 16 C38 22 41 30 41 38 C41 44 40 48 44 52Z" fill={color} opacity="0.6"/>
+      {/* Far left petal */}
+      <path d="M14 54 C14 54 14 42 18 34 C21 28 24 24 27 20 C22 27 18 34 17 40 C16 45 15 50 14 54Z" fill={color} opacity="0.35"/>
+      {/* Far right petal */}
+      <path d="M50 54 C50 54 50 42 46 34 C43 28 40 24 37 20 C42 27 46 34 47 40 C48 45 49 50 50 54Z" fill={color} opacity="0.35"/>
+      {/* Base arc - grounding element */}
+      <path d="M18 56 Q32 60 46 56" stroke={color} strokeWidth="1.5" fill="none" opacity="0.7"/>
+      {/* Small circle at top - enlightenment dot */}
+      <circle cx="32" cy="8" r="1.5" fill={color} opacity="0.8"/>
+    </svg>
+  );
+}
+
+// Wordmark - "altara" with macron over second a
+function Wordmark({ height = 24, color = BRAND.ivory }) {
+  const fontSize = height * 1.4;
+  return (
+    <svg height={height} viewBox="0 0 160 40" xmlns="http://www.w3.org/2000/svg">
+      <text
+        x="0"
+        y="32"
+        fontFamily="Georgia, 'Times New Roman', serif"
+        fontSize={fontSize > 40 ? 40 : fontSize}
+        fontWeight="normal"
+        fill={color}
+        letterSpacing="3"
+        style={{ fontVariantLigatures: 'none' }}
+      >
+        {'alt\u0101ra'}
+      </text>
+    </svg>
+  );
+}
+
+// Full Logo - Icon + Wordmark side by side (for header)
+function FullLogo({ height = 36, iconColor = BRAND.gold, textColor = BRAND.ivory }) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+      <LogoMark size={height} color={iconColor} />
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <span style={{
+          fontFamily: 'Georgia, "Times New Roman", serif',
+          fontSize: height * 0.6 + 'px',
+          color: textColor,
+          letterSpacing: '3px',
+          fontWeight: 'normal',
+          lineHeight: '1.1',
+        }}>
+          {'alt\u0101ra'}
+        </span>
+        <span style={{
+          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+          fontSize: '9px',
+          color: textColor,
+          opacity: 0.7,
+          letterSpacing: '2px',
+          textTransform: 'uppercase',
+          marginTop: '2px',
+        }}>
+          Elevated Journeys
+        </span>
+      </div>
+    </div>
+  );
+}
+
+// WordmarkOnly - Just the text for tight spaces (footer)
+function WordmarkOnly({ size = 20, color = BRAND.ivory }) {
+  return (
+    <span style={{
+      fontFamily: 'Georgia, "Times New Roman", serif',
+      fontSize: size + 'px',
+      color: color,
+      letterSpacing: '3px',
+      fontWeight: 'normal',
+    }}>
+      {'alt\u0101ra'}
+    </span>
+  );
+}
+
 // ===== CURRENCY CONVERSION =====
 const BTN_RATE = 84;
 
@@ -162,52 +263,52 @@ const FLIGHT_PRICES = {
 const DOMESTIC_FLIGHT_PRICE = 150;
 
 
-// ===== STYLES (Luxury aesthetic inspired by bru-bru.com) =====
+// ===== STYLES (Luxury aesthetic - altara brand) =====
 const styles = {
-  app: { fontFamily: 'Georgia, "Times New Roman", serif', maxWidth: '100vw', minHeight: '100vh', background: '#FDFBF7', color: '#2C2C2C', overflowX: 'hidden' },
-  header: { background: '#2C2C2C', color: '#FDFBF7', padding: '20px 16px', position: 'sticky', top: 0, zIndex: 100, boxShadow: '0 1px 3px rgba(0,0,0,0.1)' },
+  app: { fontFamily: 'Georgia, "Times New Roman", serif', maxWidth: '100vw', minHeight: '100vh', background: BRAND.ivory, color: BRAND.charcoal, overflowX: 'hidden' },
+  header: { background: BRAND.deepGreen, color: BRAND.ivory, padding: '20px 16px', position: 'sticky', top: 0, zIndex: 100, boxShadow: '0 2px 8px rgba(27,61,47,0.3)' },
   headerInner: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', maxWidth: '1200px', margin: '0 auto' },
   headerTitle: { fontSize: '22px', fontWeight: 'normal', margin: 0, letterSpacing: '3px', fontFamily: 'Georgia, serif' },
   headerSub: { fontSize: '10px', textAlign: 'left', opacity: 0.7, margin: '4px 0 0 0', letterSpacing: '2px', textTransform: 'uppercase', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' },
-  currencyToggle: { display: 'flex', alignItems: 'center', gap: '8px', background: 'rgba(255,255,255,0.1)', borderRadius: '20px', padding: '4px 4px' },
+  currencyToggle: { display: 'flex', alignItems: 'center', gap: '8px', background: 'rgba(255,255,255,0.08)', borderRadius: '20px', padding: '4px 4px', border: '1px solid rgba(201,169,78,0.3)' },
   currencyBtn: { padding: '6px 12px', fontSize: '11px', border: 'none', borderRadius: '16px', cursor: 'pointer', fontWeight: '600', transition: 'all 0.2s', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' },
-  currencyBtnActive: { background: '#B8860B', color: '#fff' },
-  currencyBtnInactive: { background: 'transparent', color: '#FDFBF7' },
-  nav: { display: 'flex', flexWrap: 'wrap', gap: '6px', padding: '14px 16px', background: '#FDFBF7', borderBottom: '1px solid #E8E2D9', justifyContent: 'center' },
-  navBtn: { padding: '8px 14px', fontSize: '12px', border: '1px solid #E8E2D9', borderRadius: '20px', background: '#FDFBF7', cursor: 'pointer', whiteSpace: 'nowrap', color: '#2C2C2C', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif', letterSpacing: '0.5px' },
-  navBtnActive: { padding: '8px 14px', fontSize: '12px', border: '1px solid #B8860B', borderRadius: '20px', background: '#B8860B', color: '#fff', cursor: 'pointer', whiteSpace: 'nowrap', fontWeight: '600', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif', letterSpacing: '0.5px' },
+  currencyBtnActive: { background: BRAND.gold, color: BRAND.charcoal },
+  currencyBtnInactive: { background: 'transparent', color: BRAND.ivory },
+  nav: { display: 'flex', flexWrap: 'wrap', gap: '6px', padding: '14px 16px', background: BRAND.ivory, borderBottom: '1px solid #E8E2D9', justifyContent: 'center' },
+  navBtn: { padding: '8px 14px', fontSize: '12px', border: '1px solid #E8E2D9', borderRadius: '20px', background: BRAND.ivory, cursor: 'pointer', whiteSpace: 'nowrap', color: BRAND.charcoal, fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif', letterSpacing: '0.5px' },
+  navBtnActive: { padding: '8px 14px', fontSize: '12px', border: '1px solid ' + BRAND.gold, borderRadius: '20px', background: BRAND.gold, color: BRAND.charcoal, cursor: 'pointer', whiteSpace: 'nowrap', fontWeight: '600', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif', letterSpacing: '0.5px' },
   section: { padding: '24px 16px', maxWidth: '900px', margin: '0 auto' },
-  sectionTitle: { fontSize: '28px', fontWeight: 'normal', color: '#2C2C2C', marginBottom: '16px', paddingBottom: '12px', borderBottom: '1px solid #B8860B', letterSpacing: '1px', fontFamily: 'Georgia, serif' },
-  card: { background: '#fff', borderRadius: '16px', overflow: 'hidden', marginBottom: '16px', boxShadow: '0 2px 12px rgba(0,0,0,0.06)', border: '1px solid #F0EBE3' },
+  sectionTitle: { fontSize: '28px', fontWeight: 'normal', color: BRAND.charcoal, marginBottom: '16px', paddingBottom: '12px', borderBottom: '1px solid ' + BRAND.gold, letterSpacing: '1px', fontFamily: 'Georgia, serif' },
+  card: { background: BRAND.white, borderRadius: '16px', overflow: 'hidden', marginBottom: '16px', boxShadow: '0 2px 12px rgba(0,0,0,0.06)', border: '1px solid #F0EBE3' },
   cardBody: { padding: '18px' },
   cardImage: { width: '100%', height: '200px', objectFit: 'cover', display: 'block' },
-  cardTitle: { fontSize: '18px', fontWeight: 'normal', color: '#2C2C2C', margin: '0 0 8px 0', fontFamily: 'Georgia, serif', letterSpacing: '0.3px' },
+  cardTitle: { fontSize: '18px', fontWeight: 'normal', color: BRAND.charcoal, margin: '0 0 8px 0', fontFamily: 'Georgia, serif', letterSpacing: '0.3px' },
   cardDesc: { fontSize: '14px', color: '#666', lineHeight: '1.6', margin: '0 0 10px 0', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' },
   badge: { display: 'inline-block', padding: '4px 10px', borderRadius: '12px', fontSize: '11px', fontWeight: '600', marginRight: '6px', marginBottom: '4px', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' },
-  premiumBadge: { background: '#F5F0E8', color: '#B8860B' },
+  premiumBadge: { background: '#F5F0E8', color: BRAND.gold },
   luxuryBadge: { background: '#F0E8F5', color: '#6B1A8B' },
-  price: { fontSize: '18px', fontWeight: '600', color: '#4A7C59' },
-  priceSmall: { fontSize: '14px', color: '#4A7C59', fontWeight: '600' },
-  stars: { color: '#B8860B', fontSize: '16px' },
+  price: { fontSize: '18px', fontWeight: '600', color: BRAND.deepGreen },
+  priceSmall: { fontSize: '14px', color: BRAND.deepGreen, fontWeight: '600' },
+  stars: { color: BRAND.gold, fontSize: '16px' },
   filterRow: { display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '16px' },
-  filterBtn: { padding: '7px 14px', fontSize: '12px', border: '1px solid #E8E2D9', borderRadius: '18px', background: '#FDFBF7', cursor: 'pointer', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' },
-  filterBtnActive: { padding: '7px 14px', fontSize: '12px', border: '1px solid #B8860B', borderRadius: '18px', background: '#B8860B', color: '#fff', cursor: 'pointer', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' },
-  input: { width: '100%', padding: '12px 16px', fontSize: '14px', border: '1px solid #E8E2D9', borderRadius: '10px', boxSizing: 'border-box', marginBottom: '12px', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif', background: '#FDFBF7' },
-  select: { width: '100%', padding: '12px 16px', fontSize: '14px', border: '1px solid #E8E2D9', borderRadius: '10px', boxSizing: 'border-box', marginBottom: '12px', background: '#FDFBF7', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' },
+  filterBtn: { padding: '7px 14px', fontSize: '12px', border: '1px solid #E8E2D9', borderRadius: '18px', background: BRAND.ivory, cursor: 'pointer', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' },
+  filterBtnActive: { padding: '7px 14px', fontSize: '12px', border: '1px solid ' + BRAND.gold, borderRadius: '18px', background: BRAND.gold, color: BRAND.charcoal, cursor: 'pointer', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' },
+  input: { width: '100%', padding: '12px 16px', fontSize: '14px', border: '1px solid #E8E2D9', borderRadius: '10px', boxSizing: 'border-box', marginBottom: '12px', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif', background: BRAND.ivory },
+  select: { width: '100%', padding: '12px 16px', fontSize: '14px', border: '1px solid #E8E2D9', borderRadius: '10px', boxSizing: 'border-box', marginBottom: '12px', background: BRAND.ivory, fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' },
   label: { fontSize: '13px', fontWeight: '600', color: '#555', display: 'block', marginBottom: '6px', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif', letterSpacing: '0.5px', textTransform: 'uppercase' },
-  btn: { padding: '12px 24px', fontSize: '14px', background: '#B8860B', color: '#fff', border: 'none', borderRadius: '10px', cursor: 'pointer', fontWeight: '600', letterSpacing: '0.5px', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' },
-  btnOutline: { padding: '10px 20px', fontSize: '13px', background: 'transparent', color: '#B8860B', border: '1.5px solid #B8860B', borderRadius: '10px', cursor: 'pointer', fontWeight: '600', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' },
-  tag: { display: 'inline-block', padding: '3px 8px', fontSize: '11px', background: '#F5F0E8', color: '#B8860B', borderRadius: '6px', marginRight: '4px', marginBottom: '4px', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' },
+  btn: { padding: '12px 24px', fontSize: '14px', background: BRAND.gold, color: BRAND.charcoal, border: 'none', borderRadius: '10px', cursor: 'pointer', fontWeight: '600', letterSpacing: '0.5px', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' },
+  btnOutline: { padding: '10px 20px', fontSize: '13px', background: 'transparent', color: BRAND.gold, border: '1.5px solid ' + BRAND.gold, borderRadius: '10px', cursor: 'pointer', fontWeight: '600', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' },
+  tag: { display: 'inline-block', padding: '3px 8px', fontSize: '11px', background: '#F5F0E8', color: BRAND.gold, borderRadius: '6px', marginRight: '4px', marginBottom: '4px', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' },
   resultBox: { background: '#F8F5F0', border: '1px solid #E8E2D9', borderRadius: '12px', padding: '16px', marginTop: '16px' },
   grid2: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '12px' },
   divider: { height: '1px', background: '#E8E2D9', margin: '12px 0' },
-  chip: { display: 'inline-block', padding: '8px 16px', borderRadius: '24px', fontSize: '13px', margin: '4px', cursor: 'pointer', border: '1px solid #E8E2D9', background: '#fff', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' },
-  chipActive: { display: 'inline-block', padding: '8px 16px', borderRadius: '24px', fontSize: '13px', margin: '4px', cursor: 'pointer', border: '1px solid #B8860B', background: '#B8860B', color: '#fff', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' },
+  chip: { display: 'inline-block', padding: '8px 16px', borderRadius: '24px', fontSize: '13px', margin: '4px', cursor: 'pointer', border: '1px solid #E8E2D9', background: BRAND.white, fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' },
+  chipActive: { display: 'inline-block', padding: '8px 16px', borderRadius: '24px', fontSize: '13px', margin: '4px', cursor: 'pointer', border: '1px solid ' + BRAND.gold, background: BRAND.gold, color: BRAND.charcoal, fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' },
   hero: { position: 'relative', width: '100%', height: '400px', overflow: 'hidden' },
   heroImage: { width: '100%', height: '100%', objectFit: 'cover' },
   heroOverlay: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.5) 100%)', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: '40px 24px' },
   heroTitle: { color: '#fff', fontSize: '36px', fontWeight: 'normal', margin: '0 0 8px', fontFamily: 'Georgia, serif', letterSpacing: '2px' },
-  heroSubtitle: { color: 'rgba(255,255,255,0.9)', fontSize: '16px', margin: 0, fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif', letterSpacing: '1px' },
+  heroSubtitle: { color: 'rgba(255,255,255,0.9)', fontSize: '14px', margin: 0, fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif', letterSpacing: '2px', textTransform: 'uppercase' },
 };
 
 // ===== HELPER: Format price based on currency =====
@@ -266,7 +367,7 @@ function DestinationsSection({ currency }) {
           <div style={styles.cardBody}>
             <h3 style={styles.cardTitle}>{dest.name}</h3>
             <p style={styles.cardDesc}>{dest.description}</p>
-            <span style={{fontSize: '12px', color: '#B8860B', fontFamily: '-apple-system, sans-serif'}}>{dest.places.length} places to visit &rarr;</span>
+            <span style={{fontSize: '12px', color: BRAND.gold, fontFamily: '-apple-system, sans-serif'}}>{dest.places.length} places to visit &rarr;</span>
           </div>
         </div>
       ))}
@@ -416,7 +517,7 @@ function CalculatorSection({ currency }) {
 
       {result && (
         <div style={styles.resultBox}>
-          <h3 style={{fontSize: '18px', margin: '0 0 12px', color: '#4A7C59', fontFamily: 'Georgia, serif'}}>Cost Breakdown</h3>
+          <h3 style={{fontSize: '18px', margin: '0 0 12px', color: BRAND.deepGreen, fontFamily: 'Georgia, serif'}}>Cost Breakdown</h3>
           <div style={{fontSize: '14px', fontFamily: '-apple-system, sans-serif'}}>
             <div style={{display: 'flex', justifyContent: 'space-between', padding: '6px 0'}}><span>SDF ({days} nights x {persons} persons x {formatPrice(SDF_RATE, currency)})</span><span>{formatPrice(result.sdf, currency)}</span></div>
             <div style={{display: 'flex', justifyContent: 'space-between', padding: '6px 0'}}><span>Visa Fee ({persons} x {formatPrice(VISA_FEE, currency)})</span><span>{formatPrice(result.visa, currency)}</span></div>
@@ -425,7 +526,7 @@ function CalculatorSection({ currency }) {
             <div style={{display: 'flex', justifyContent: 'space-between', padding: '6px 0'}}><span>Hotel ({days - 1} nights)</span><span>{formatPrice(result.hotelCost, currency)}</span></div>
             {includeGuide && <div style={{display: 'flex', justifyContent: 'space-between', padding: '6px 0'}}><span>Guide ({days} days)</span><span>{formatPrice(result.guide, currency)}</span></div>}
             <div style={styles.divider} />
-            <div style={{display: 'flex', justifyContent: 'space-between', padding: '8px 0', fontWeight: 'bold', fontSize: '18px', color: '#4A7C59'}}><span>TOTAL</span><span>{formatPrice(result.total, currency)}</span></div>
+            <div style={{display: 'flex', justifyContent: 'space-between', padding: '8px 0', fontWeight: 'bold', fontSize: '18px', color: BRAND.deepGreen}}><span>TOTAL</span><span>{formatPrice(result.total, currency)}</span></div>
             <p style={{fontSize: '12px', color: '#888', marginTop: '8px'}}>* Per person: {formatPrice(Math.round(result.total / persons), currency)}</p>
           </div>
         </div>
@@ -513,7 +614,7 @@ function HotelsSection({ currency }) {
                 <h4 style={{fontSize: '14px', margin: '0 0 8px', fontFamily: 'Georgia, serif'}}>Room Types</h4>
                 {h.roomTypes.map((r, i) => (
                   <div key={i} style={{display: 'flex', justifyContent: 'space-between', fontSize: '13px', padding: '4px 0', fontFamily: '-apple-system, sans-serif'}}>
-                    <span>{r.name}</span><span style={{color: '#4A7C59', fontWeight: '600'}}>{formatPrice(r.price, currency)}/night</span>
+                    <span>{r.name}</span><span style={{color: BRAND.deepGreen, fontWeight: '600'}}>{formatPrice(r.price, currency)}/night</span>
                   </div>
                 ))}
               </div>
@@ -538,7 +639,7 @@ function FoodSection({ currency }) {
               <span style={styles.price}>{formatPrice(food.pricePerPerson, currency)}/pp</span>
             </div>
             <p style={styles.cardDesc}>{food.description}</p>
-            <span style={{fontSize: '12px', color: '#B8860B', fontFamily: '-apple-system, sans-serif'}}>Duration: {food.duration}</span>
+            <span style={{fontSize: '12px', color: BRAND.gold, fontFamily: '-apple-system, sans-serif'}}>Duration: {food.duration}</span>
             <div style={{marginTop: '10px'}}>
               {food.menu.map((item, i) => <span key={i} style={styles.tag}>{item}</span>)}
             </div>
@@ -661,11 +762,11 @@ function CustomizeSection({ currency }) {
         <h2 style={styles.sectionTitle}>Your Recommendations</h2>
         <button onClick={() => { setResults(null); setStep(1); }} style={styles.btnOutline}>&larr; Start Over</button>
         {results.map((rec, idx) => (
-          <div key={idx} style={{...styles.card, marginTop: '16px', borderLeft: idx === 0 ? '4px solid #4A7C59' : '4px solid #E8E2D9'}}>
+          <div key={idx} style={{...styles.card, marginTop: '16px', borderLeft: idx === 0 ? '4px solid ' + BRAND.deepGreen : '4px solid #E8E2D9'}}>
             <div style={styles.cardBody}>
               <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                 <h3 style={styles.cardTitle}>{rec.tour.name}</h3>
-                <span style={{...styles.badge, background: '#E8F5E9', color: '#4A7C59'}}>{rec.score}% match</span>
+                <span style={{...styles.badge, background: '#E8F5E9', color: BRAND.deepGreen}}>{rec.score}% match</span>
               </div>
               <p style={styles.cardDesc}>{rec.tour.description}</p>
               <div style={{fontSize: '13px', color: '#555', marginBottom: '8px'}}>
@@ -683,7 +784,7 @@ function CustomizeSection({ currency }) {
                 </div>
               ))}
               <div style={styles.divider} />
-              <div style={{display: 'flex', justifyContent: 'space-between', fontWeight: 'bold', color: '#4A7C59', fontSize: '16px'}}>
+              <div style={{display: 'flex', justifyContent: 'space-between', fontWeight: 'bold', color: BRAND.deepGreen, fontSize: '16px'}}>
                 <span>Estimated Total</span><span>{formatPrice(rec.total, currency)}</span>
               </div>
             </div>
@@ -702,7 +803,7 @@ function CustomizeSection({ currency }) {
         <div style={styles.cardBody}>
           <div style={{display: 'flex', justifyContent: 'center', gap: '6px', marginBottom: '20px'}}>
             {[1,2,3,4,5].map(s => (
-              <div key={s} style={{width: '40px', height: '3px', borderRadius: '2px', background: s <= step ? '#B8860B' : '#E8E2D9'}} />
+              <div key={s} style={{width: '40px', height: '3px', borderRadius: '2px', background: s <= step ? BRAND.gold : '#E8E2D9'}} />
             ))}
           </div>
 
@@ -740,7 +841,7 @@ function CustomizeSection({ currency }) {
             <div>
               <h3 style={{fontSize: '18px', margin: '0 0 12px', fontFamily: 'Georgia, serif'}}>How many days?</h3>
               <input type="range" min="3" max="21" value={duration} onChange={e => setDuration(+e.target.value)} style={{width: '100%'}} />
-              <p style={{textAlign: 'center', fontSize: '24px', fontWeight: 'normal', color: '#B8860B', fontFamily: 'Georgia, serif'}}>{duration} days</p>
+              <p style={{textAlign: 'center', fontSize: '24px', fontWeight: 'normal', color: BRAND.gold, fontFamily: 'Georgia, serif'}}>{duration} days</p>
               <div style={{display: 'flex', gap: '8px', marginTop: '20px'}}>
                 <button onClick={() => setStep(2)} style={styles.btnOutline}>Back</button>
                 <button onClick={() => setStep(4)} style={{...styles.btn, flex: 1}}>Next</button>
@@ -815,10 +916,7 @@ export default function App() {
     <div style={styles.app}>
       <header style={styles.header}>
         <div style={styles.headerInner}>
-          <div>
-            <h1 style={styles.headerTitle}>altar&#257;</h1>
-            <p style={styles.headerSub}>Bhutan Travel Experiences</p>
-          </div>
+          <FullLogo height={36} iconColor={BRAND.gold} textColor={BRAND.ivory} />
           <div style={styles.currencyToggle}>
             <button
               onClick={() => setCurrency('USD')}
@@ -837,10 +935,10 @@ export default function App() {
         ))}
       </nav>
       {renderPage()}
-      <footer style={{textAlign: 'center', padding: '40px 20px', fontSize: '13px', color: '#888', background: '#2C2C2C', fontFamily: '-apple-system, sans-serif'}}>
-        <p style={{fontSize: '20px', color: '#FDFBF7', fontFamily: 'Georgia, serif', letterSpacing: '3px', margin: '0 0 8px'}}>altar&#257;</p>
-        <p style={{color: '#999', margin: '4px 0'}}>Curated Bhutan Travel Experiences</p>
-        <p style={{color: '#666', margin: '12px 0 0', fontSize: '11px'}}>SDF: {formatPrice(200, currency)}/person/night | Visa: {formatPrice(40, currency)}/person | 1 USD = {BTN_RATE} BTN</p>
+      <footer style={{textAlign: 'center', padding: '40px 20px', fontSize: '13px', color: '#888', background: BRAND.deepGreen, fontFamily: '-apple-system, sans-serif'}}>
+        <WordmarkOnly size={22} color={BRAND.ivory} />
+        <p style={{color: 'rgba(253,251,245,0.6)', margin: '8px 0 0', fontSize: '10px', letterSpacing: '2px', textTransform: 'uppercase'}}>Elevated Journeys. Bhutan, Reimagined.</p>
+        <p style={{color: 'rgba(253,251,245,0.4)', margin: '16px 0 0', fontSize: '11px'}}>SDF: {formatPrice(200, currency)}/person/night | Visa: {formatPrice(40, currency)}/person | 1 USD = {BTN_RATE} BTN</p>
       </footer>
     </div>
   );
@@ -871,12 +969,19 @@ function HomePage({ setPage, currency }) {
       <div style={styles.hero}>
         <img src={images.hero} alt="Bhutan landscape" style={styles.heroImage} />
         <div style={styles.heroOverlay}>
-          <h2 style={styles.heroTitle}>Welcome to Bhutan</h2>
-          <p style={styles.heroSubtitle}>The Last Shangri-La in the Himalayas</p>
+          <div style={{marginBottom: '12px'}}>
+            <LogoMark size={48} color={BRAND.gold} />
+          </div>
+          <h2 style={styles.heroTitle}>{'alt\u0101ra'}</h2>
+          <p style={styles.heroSubtitle}>Elevated Journeys. Bhutan, Reimagined.</p>
         </div>
       </div>
 
       <div style={styles.section}>
+        {/* Decorative lotus mark */}
+        <div style={{textAlign: 'center', margin: '0 auto 24px'}}>
+          <LogoMark size={32} color={BRAND.gold} />
+        </div>
         <p style={{fontSize: '16px', color: '#555', lineHeight: '1.8', textAlign: 'center', maxWidth: '600px', margin: '0 auto 24px', fontFamily: '-apple-system, sans-serif'}}>
           Discover a Buddhist kingdom where ancient monasteries cling to cliffsides, prayer flags flutter in mountain winds, and happiness is measured as a national priority.
         </p>
@@ -885,29 +990,29 @@ function HomePage({ setPage, currency }) {
           {stats.map((s, i) => (
             <div key={i} style={{...styles.card, textAlign: 'center'}}>
               <div style={styles.cardBody}>
-                <p style={{fontSize: '28px', fontWeight: 'normal', color: '#B8860B', margin: '0', fontFamily: 'Georgia, serif'}}>{s.value}</p>
+                <p style={{fontSize: '28px', fontWeight: 'normal', color: BRAND.gold, margin: '0', fontFamily: 'Georgia, serif'}}>{s.value}</p>
                 <p style={{fontSize: '12px', color: '#666', margin: '4px 0 0', fontFamily: '-apple-system, sans-serif', letterSpacing: '0.5px', textTransform: 'uppercase'}}>{s.label}</p>
               </div>
             </div>
           ))}
         </div>
 
-        <h3 style={{fontSize: '22px', margin: '32px 0 16px', color: '#2C2C2C', fontFamily: 'Georgia, serif', textAlign: 'center'}}>Explore</h3>
+        <h3 style={{fontSize: '22px', margin: '32px 0 16px', color: BRAND.charcoal, fontFamily: 'Georgia, serif', textAlign: 'center'}}>Explore</h3>
         <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px'}}>
           {sections.map(s => (
             <div key={s.id} style={{...styles.card, cursor: 'pointer'}} onClick={() => setPage(s.id)}>
               <div style={{...styles.cardBody, textAlign: 'center', padding: '20px 14px'}}>
                 <span style={{fontSize: '24px', display: 'block', marginBottom: '8px'}}>{s.icon}</span>
-                <h4 style={{fontSize: '15px', fontWeight: 'normal', margin: '0 0 4px', color: '#2C2C2C', fontFamily: 'Georgia, serif'}}>{s.title}</h4>
+                <h4 style={{fontSize: '15px', fontWeight: 'normal', margin: '0 0 4px', color: BRAND.charcoal, fontFamily: 'Georgia, serif'}}>{s.title}</h4>
                 <p style={{fontSize: '12px', color: '#888', margin: 0, fontFamily: '-apple-system, sans-serif'}}>{s.desc}</p>
               </div>
             </div>
           ))}
         </div>
 
-        <div style={{...styles.card, marginTop: '24px', background: '#FDFBF7', border: '1px solid #E8E2D9'}}>
+        <div style={{...styles.card, marginTop: '24px', background: BRAND.ivory, border: '1px solid #E8E2D9'}}>
           <div style={styles.cardBody}>
-            <h3 style={{fontSize: '16px', margin: '0 0 12px', color: '#B8860B', fontFamily: 'Georgia, serif'}}>Bhutan Travel Essentials</h3>
+            <h3 style={{fontSize: '16px', margin: '0 0 12px', color: BRAND.gold, fontFamily: 'Georgia, serif'}}>Bhutan Travel Essentials</h3>
             <div style={{fontSize: '13px', fontFamily: '-apple-system, sans-serif', lineHeight: '2'}}>
               <p style={{margin: '0'}}>&#8226; SDF (Sustainable Development Fee): {formatPrice(200, currency)}/person/night</p>
               <p style={{margin: '0'}}>&#8226; Visa Fee: {formatPrice(40, currency)}/person (one-time)</p>
